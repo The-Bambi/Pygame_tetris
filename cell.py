@@ -9,8 +9,12 @@ class Cell:
         self.left = None
         self.right = None
         self.screen = screen
+        self.base_color = (255,255,255,90)
         self.color = (255,255,255,90)
-        self.width = 1
+        self.piled = False
 
     def show(self):
-        pygame.draw.rect(self.screen, self.color, self.rect, self.width)
+        if self.color != self.base_color:
+            width = 0
+        else: width = 1
+        pygame.draw.rect(self.screen, self.color, self.rect, width)
