@@ -15,15 +15,20 @@ while not done:
         if event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_SPACE:
                 done = True
+            if event.key == pygame.K_RCTRL:
+                grid.spawn()
+            if event.key == pygame.K_LEFT:
+                grid.activeBlock.moveLeft()
+            if event.key == pygame.K_RIGHT:
+                grid.activeBlock.moveRight()
+            if event.key == pygame.K_DOWN:
+                grid.activeBlock.fall()
 
     
     screen.fill((0,0,0))
 
-    grid.grid[5][3].up.color = (255,0,0)
-    grid.grid[5][3].down.color = (255,0,0)
-    grid.grid[5][3].right.color = (255,0,0)
-    grid.grid[5][3].left.color = (255,0,0)
+    grid.update(pygame.time.get_ticks())
     grid.show()
 
     pygame.display.flip()
-    clock.tick(120)
+    clock.tick(30)
