@@ -1,9 +1,9 @@
 from cell import *
 from block import *
+from pile import *
 from random import choice
 
 class Grid:
-    
     def __init__(self, x_amount, y_amount, screen):
         self.grid = [[Cell(x*29, y*29, 30, 30, screen) for x in range(x_amount)] for y in range(y_amount)]
         for y, line in enumerate(self.grid):
@@ -17,6 +17,7 @@ class Grid:
                 if x < x_amount - 1:
                     cell.right = self.grid[y][x+1]
         self.activeBlock = None
+        self.pile = Pile()
 
     def show(self):
         for line in self.grid:
@@ -25,8 +26,11 @@ class Grid:
 
     def update(self, frameCount):
         if frameCount%60 == 0:
-            if self.activeBlock is not None and self.activeBlock.active:
-                self.activeBlock.fall()
+            if self.activeBlock is not None:
+                if not self.activeBlock.fall():
+                    self.pile.add_block(self.activeBlock)
+                    self.spawn()
+            else: self.spawn()
 
     def spawn(self):
         print("spawned")

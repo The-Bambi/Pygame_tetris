@@ -22,7 +22,6 @@ class Block:
         self.cells = []
         self.next_update = []
         self.color = None
-        self.active = True
 
         if type == ".":
             self.test = anchor
@@ -52,7 +51,7 @@ class Block:
         #print(self.cells[0].rect)
         for cell in self.cells:
             if cell.down is None or cell.down.piled:
-                self.active = False
+                return False
         for cell in self.cells:
             cell.color = cell.base_color
         for cell in self.cells:
@@ -61,11 +60,12 @@ class Block:
             self.next_update.append(next_cell)
         self.cells = self.next_update
         self.next_update = []
+        return True
 
 
     def moveLeft(self):
         for cell in self.cells:
-            if cell.left is None:
+            if cell.left is None or cell.left.piled:
                 return
         for cell in self.cells:
             cell.color = cell.base_color
@@ -78,7 +78,7 @@ class Block:
 
     def moveRight(self):
         for cell in self.cells:
-            if cell.right is None:
+            if cell.right is None or cell.right.piled:
                 return
         for cell in self.cells:
             cell.color = cell.base_color
