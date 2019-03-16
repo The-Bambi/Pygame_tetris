@@ -10,9 +10,7 @@ Orange L
 
 class Block:
     def __init__(self, color):
-        self.cells = []
-        self.next_update = []
-        self.color = color
+        self.y = 0
 
     def fall(self):
         #print(self.cells[0].rect)
@@ -68,10 +66,7 @@ class O(Block):
         for cell in self.cells:
             cell.color = self.color
         
-    def rotateLeft(self):
-        return
-
-    def rotateRight(self):
+    def rotate(self):
         return
 
 class I(Block):
@@ -85,8 +80,6 @@ class I(Block):
         for cell in self.cells:
             cell.color = self.color
         
-    def rotateLeft(self):
-        return
-
-    def rotateRight(self):
+    def rotate(self):
+        """Rotation. Will. Be. Hard. As. Fuck."""
         return
