@@ -7,45 +7,12 @@ Red Z
 Blue J
 Orange L
 '''
-I = [[1],[1],[1],[1]]
-O = [[1,1],[1,1]]
-T = [[0,1,0],[1,1,1]]
-S = [[1,0],[1,1],[0,1]]
-Z = [[0,1],[1,1],[1,0]]
-J = [[0,1],[0,1],[1,1]]
-L = [[1,0],[1,0],[1,1]]
-
-from copy import deepcopy
 
 class Block:
-    def __init__(self, type, anchor):
+    def __init__(self, color):
         self.cells = []
         self.next_update = []
-        self.color = None
-
-        if type == ".":
-            self.test = anchor
-            self.color = (255,255,255)
-            self.test.color = self.color
-        if type == "O":
-            self.color = (255,255,0)
-            self.cells.append(anchor)
-            self.cells.append(anchor.right)
-            self.cells.append(anchor.right.down)
-            self.cells.append(anchor.right.down.left)
-            for cell in self.cells:
-                cell.color = self.color
-        if type == "I":
-            self.cells.append(anchor)
-            self.cells.append(anchor.right)
-            self.cells.append(anchor.right.down)
-            self.cells.append(anchor.right.down.left)
-
-    def _fall(self):
-        print(self.test.rect)
-        self.test.color = self.test.base_color
-        self.test = self.test.down
-        self.test.color = (255,255,255)
+        self.color = color
 
     def fall(self):
         #print(self.cells[0].rect)
@@ -88,3 +55,38 @@ class Block:
             self.next_update.append(next_cell)
         self.cells = self.next_update
         self.next_update = []
+
+
+class O(Block):
+
+    def __init__(self, anchor):
+        super().__init__((155,155,0))
+        self.cells.append(anchor)
+        self.cells.append(anchor.right)
+        self.cells.append(anchor.right.down)
+        self.cells.append(anchor.right.down.left)
+        for cell in self.cells:
+            cell.color = self.color
+        
+    def rotateLeft(self):
+        return
+
+    def rotateRight(self):
+        return
+
+class I(Block):
+
+    def __init__(self, anchor):
+        super().__init__((0,155,155))
+        self.cells.append(anchor)
+        self.cells.append(anchor.right)
+        self.cells.append(anchor.left)
+        self.cells.append(anchor.left.left)
+        for cell in self.cells:
+            cell.color = self.color
+        
+    def rotateLeft(self):
+        return
+
+    def rotateRight(self):
+        return
