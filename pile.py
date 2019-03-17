@@ -1,6 +1,8 @@
+import numpy as np
+
 class Pile:
     def __init__(self):
-        self.cells = []
+        self.cells = np.array([1])
 
     def add_block(self, block):
         for cell in block.cells:

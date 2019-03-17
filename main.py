@@ -3,18 +3,20 @@ from grid import *
 
 pygame.init()
 
-screen = pygame.display.set_mode((400, 581))
+screen = pygame.display.set_mode((400, 600))
 clock = pygame.time.Clock()
-grid = Grid(10, 20, screen)
+grid = Grid(screen)
 
 done = False
+grid.show()
+grid.spawn()
 
 while not done:
 
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_SPACE:
-                done = True
+                done = True  
             if event.key == pygame.K_RCTRL:
                 grid.spawn()
             if event.key == pygame.K_LEFT:
@@ -24,11 +26,12 @@ while not done:
             if event.key == pygame.K_DOWN:
                 grid.activeBlock.fall()
 
-    
     screen.fill((0,0,0))
 
-    grid.update(pygame.time.get_ticks())
+    grid.fit_block()
+    grid.update()
     grid.show()
+    grid.reset()
 
     pygame.display.flip()
     clock.tick(30)
