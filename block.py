@@ -1,3 +1,5 @@
+import numpy as np
+
 '''
 Cyan I
 Yellow O
@@ -9,77 +11,60 @@ Orange L
 '''
 
 class Block:
-    def __init__(self, color):
+    def __init__(self, x, shape = np.array([1])):
         self.y = 0
+        self.x = x
+        self.shape = shape
 
     def fall(self):
         #print(self.cells[0].rect)
-        for cell in self.cells:
-            if cell.down is None or cell.down.piled:
-                return False
-        for cell in self.cells:
-            cell.color = cell.base_color
-        for cell in self.cells:
-            next_cell = cell.down
-            next_cell.color = self.color
-            self.next_update.append(next_cell)
-        self.cells = self.next_update
-        self.next_update = []
-        return True
-
+        self.y += 1
 
     def moveLeft(self):
-        for cell in self.cells:
-            if cell.left is None or cell.left.piled:
-                return
-        for cell in self.cells:
-            cell.color = cell.base_color
-        for cell in self.cells:
-            next_cell = cell.left
-            next_cell.color = self.color
-            self.next_update.append(next_cell)
-        self.cells = self.next_update
-        self.next_update = []
+        if self.x == 0:
+            return
+        self.x -= 1
 
     def moveRight(self):
-        for cell in self.cells:
-            if cell.right is None or cell.right.piled:
-                return
-        for cell in self.cells:
-            cell.color = cell.base_color
-        for cell in self.cells:
-            next_cell = cell.right
-            next_cell.color = self.color
-            self.next_update.append(next_cell)
-        self.cells = self.next_update
-        self.next_update = []
+        if self.x == 19:
+            return
+        self.x += 1
+
+    def rotate(self):
+        self.shape = np.rot90(self.shape)
 
 
 class O(Block):
 
-    def __init__(self, anchor):
-        super().__init__((155,155,0))
-        self.cells.append(anchor)
-        self.cells.append(anchor.right)
-        self.cells.append(anchor.right.down)
-        self.cells.append(anchor.right.down.left)
-        for cell in self.cells:
-            cell.color = self.color
-        
-    def rotate(self):
-        return
+    def __init__(self):
+        super().__init__(4, np.array([[[155,155,0],[155,155,0]],[[155,155,0],[155,155,0]]]))
 
 class I(Block):
 
-    def __init__(self, anchor):
-        super().__init__((0,155,155))
-        self.cells.append(anchor)
-        self.cells.append(anchor.right)
-        self.cells.append(anchor.left)
-        self.cells.append(anchor.left.left)
-        for cell in self.cells:
-            cell.color = self.color
-        
-    def rotate(self):
-        """Rotation. Will. Be. Hard. As. Fuck."""
-        return
+    def __init__(self):
+        super().__init__(3, np.array([[[0,155,155],[0,155,155],[0,155,155],[0,155,155]]]))
+
+class T(Block):
+
+    def __init__(self):
+        super().__init__(4, np.array([[[0,0,0],[155,0,155],[0,0,0]],[[155,0,155],[155,0,155],[155,0,155]]]))
+
+class S(Block):
+
+    def __init__(self):
+        super().__init__(4, np.array([[[0,0,0],[0,155,0],[0,155,0]],[[0,155,0],[0,155,0],[0,0,0]]]))
+
+class Z(Block):
+
+    def __init__(self):
+        super().__init__(4, np.array([[[155,0,0],[155,0,0],[0,0,0]],[[0,0,0],[155,0,0],[155,0,0]]]))
+
+class J(Block):
+
+    def __init__(self):
+        super().__init__(4, np.array([[[0,0,155],[0,0,0],[0,0,0]],[[0,0,155],[0,0,155],[0,0,155]]]))
+
+class L(Block):
+
+    def __init__(self):
+        super().__init__(4, np.array([[[0,0,0],[0,0,0],[205,155,0]],[[205,155,0],[205,155,0],[205,155,0]]]))
