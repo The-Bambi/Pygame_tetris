@@ -1,4 +1,3 @@
-from cell import *
 from block import *
 from pile import *
 
@@ -31,18 +30,18 @@ class Grid:
     def spawn(self):
         block_type = choice("IOTSZJL")
         if block_type == "I":
-            self.activeBlock = I(self.grid[0][5])
+            self.activeBlock = I()
         if block_type == "O":
-            self.activeBlock = O(self.grid[0][4])
+            self.activeBlock = O()
         if block_type == "T":
-            self.activeBlock = T(self.grid[0][4])
+            self.activeBlock = T()
         if block_type == "S":
-            self.activeBlock = S(self.grid[0][4])
+            self.activeBlock = S()
         if block_type == "Z":
-            self.activeBlock = Z(self.grid[0][4])
+            self.activeBlock = Z()
         if block_type == "J":
-            self.activeBlock = J(self.grid[0][4])
+            self.activeBlock = J()
         if block_type == "L":
-            self.activeBlock = L(self.grid[0][4])
+            self.activeBlock = L()
 
 
