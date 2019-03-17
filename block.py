@@ -26,7 +26,7 @@ class Block:
         self.x -= 1
 
     def moveRight(self):
-        if self.x == 19:
+        if self.x == 19 - self.shape[1]:
             return
         self.x += 1
 

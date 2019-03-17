@@ -14,18 +14,18 @@ class Grid:
         self.lastFallTime = time()
         self.fallFreq = 1
 
-    def show(self):
-        for line in self.grid:
-            for cell in line:
-                cell.show()
-
-    def update(self, frameCount):
+    def update(self):
         if time() - self.lastFallTime > self.fallFreq:
             if self.activeBlock is not None:
                 if not self.activeBlock.fall():
                     self.pile.add_block(self.activeBlock)
                     self.spawn()
                 self.lastFallTime = time()
+
+    def show(self):
+        for line in self.grid:
+            for cell in line:
+                cell.show()
 
     def spawn(self):
         block_type = choice("IOTSZJL")
