@@ -18,21 +18,20 @@ class Block:
 
     def fall(self):
         self.y +=1
-        print(self.x,self.y)
 
     def moveLeft(self):
         if self.x == 0:
             return
         self.x -= 1
-        print(self.x,self.y)
 
     def moveRight(self):
         if self.x == 10 - self.array.shape[1]:
             return
         self.x += 1
-        print(self.x,self.y)
 
     def rotate(self):
+        if (self.array.shape[0] + self.x) > 9:
+            self.x -= 1
         self.array = np.rot90(self.array)
 
 
