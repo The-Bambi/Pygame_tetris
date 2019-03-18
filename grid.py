@@ -76,7 +76,7 @@ class Grid:
 
             self.grid[x:x+shape[1],y:y+shape[0]] += self.activeBlock.array.T
 
-    def check(self):
+    def check(self, move):
         if self.activeBlock is not None:
             shape = self.activeBlock.array.shape
             x = self.activeBlock.x
@@ -87,10 +87,24 @@ class Grid:
                 self.activeBlock = None
                 return
 
-            section = self.pile[x:x+shape[1],y+1:y+1+shape[0]] * self.activeBlock.array.T
+            if move == "down":
+                next_x = x
+                next_y = y+1
+            if move == "left":
+                next_x = x-1
+                next_y = y
+            if move == "right":
+                next_x = x+1
+                next_y = y
+
+            section = self.pile[next_x:next_x+shape[1],next_y:next_y+shape[0]] * self.activeBlock.array.T
 
             for cell in np.nditer(section):
                 if cell != 0:
-                    self.pile[x:x+shape[1],y:y+shape[0]] += self.activeBlock.array.T
-                    self.activeBlock = None
-                    return
+                    if move == "left" or move == "right":
+                        #self.activeBlock.doNotMove jak to zrobic...
+                        return
+                    if move == "down":
+                        self.pile[x:x+shape[1],y:y+shape[0]] += self.activeBlock.array.T
+                        self.activeBlock = None
+                        return
