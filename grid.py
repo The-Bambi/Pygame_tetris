@@ -13,14 +13,27 @@ class Grid:
         self.screen = screen
         self.activeBlock = None
         self.lastFallTime = time()
-        self.fallFreq = 1
+        self.fallFreq = 0.6
 
     def update(self):
+        self.fitBlock()
         if time() - self.lastFallTime > self.fallFreq:
             if self.activeBlock is not None:
-                self.activeBlock.fall()
+                self.moveDown()
                 self.lastFallTime = time()
             else: self.spawn()
+
+    def moveLeft(self):
+        if self.isValid('left'):
+            self.activeBlock.moveLeft()
+
+    def moveRight(self):
+        if self.isValid('right'):
+            self.activeBlock.moveRight()
+
+    def moveDown(self):
+        if self.isValid('down'):
+            self.activeBlock.fall()
 
     def show(self):
         for y_index, line in enumerate(self.grid.T):
@@ -68,7 +81,7 @@ class Grid:
         if block_type == "L":
             self.activeBlock = L()
 
-    def fit_block(self):
+    def fitBlock(self):
         if self.activeBlock is not None:
             shape = self.activeBlock.array.shape
             x = self.activeBlock.x
@@ -76,26 +89,28 @@ class Grid:
 
             self.grid[x:x+shape[1],y:y+shape[0]] += self.activeBlock.array.T
 
-    def check(self, move):
+    def isValid(self, move):
         if self.activeBlock is not None:
             shape = self.activeBlock.array.shape
             x = self.activeBlock.x
             y = self.activeBlock.y
 
+            if move == "down":
+                next_x = x
+                next_y = y + 1
+            if move == "left":
+                if x == 0: return False
+                next_x = x - 1
+                next_y = y
+            if move == "right":
+                if  x + shape[1] > 9: return False
+                next_x = x + 1
+                next_y = y
+
             if y + shape[0] > 19:
                 self.pile[x:x+shape[1],y:y+shape[0]] += self.activeBlock.array.T
                 self.activeBlock = None
-                return
-
-            if move == "down":
-                next_x = x
-                next_y = y+1
-            if move == "left":
-                next_x = x-1
-                next_y = y
-            if move == "right":
-                next_x = x+1
-                next_y = y
+                return False
 
             section = self.pile[next_x:next_x+shape[1],next_y:next_y+shape[0]] * self.activeBlock.array.T
 
@@ -103,8 +118,9 @@ class Grid:
                 if cell != 0:
                     if move == "left" or move == "right":
                         #self.activeBlock.doNotMove jak to zrobic...
-                        return
+                        return False
                     if move == "down":
                         self.pile[x:x+shape[1],y:y+shape[0]] += self.activeBlock.array.T
                         self.activeBlock = None
-                        return
+                        return False
+            return True

@@ -21,19 +21,17 @@ while not done:
                 if event.key == pygame.K_RCTRL:
                     grid.spawn()
                 if event.key == pygame.K_LEFT:
-                    grid.activeBlock.moveLeft()
+                    grid.moveLeft()
                 if event.key == pygame.K_RIGHT:
-                    grid.activeBlock.moveRight()
+                    grid.moveRight()
                 if event.key == pygame.K_DOWN:
-                    grid.activeBlock.fall()
+                    grid.moveDown()
                 if event.key == pygame.K_UP:
                     grid.activeBlock.rotate()
 
     screen.fill((0,0,0))
 
-    grid.fit_block()
     grid.update()
-    grid.check()
     grid.show()
     grid.reset()
 
